@@ -57,6 +57,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -106,6 +107,7 @@ import co.subk.zoomsdk.cmd.EmojiReactionType;
 import co.subk.zoomsdk.event.CeFormAnswerDataEvent;
 import co.subk.zoomsdk.event.InternetEvent;
 import co.subk.zoomsdk.event.InviteAttendeeEvent;
+import co.subk.zoomsdk.event.IsAnalyticsBoxChecked;
 import co.subk.zoomsdk.event.LocationEvent;
 import co.subk.zoomsdk.event.SessionEndedEvent;
 import co.subk.zoomsdk.event.SessionJoinedEvent;
@@ -1440,20 +1442,28 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
                 builder.setContentView(R.layout.dialog_band_karo_meeting);
 
                 TextView btn_cancel_button = builder.findViewById(R.id.btn_cancel_button_naya);
+                CheckBox run_video_analytics_immeditly = builder.findViewById(R.id.run_video_analytics_immeditly);
 
 
                 if (view.getId() == R.id.text_end_meeting) {
-                    ((TextView) builder.findViewById(R.id.txt_leave_session_new)).setText(getString(R.string.leave_message));
+//                    ((TextView) builder.findViewById(R.id.txt_leave_session_new)).setText(getString(R.string.leave_message));
                 } else {
                     ((TextView) builder.findViewById(R.id.txt_leave_session_new)).setText(getString(R.string.consent_decline_message));
                 }
                 builder.findViewById(R.id.btn_leave_naya).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        builder.dismiss();
-                        releaseResource();
-                        int ret = ZoomVideoSDK.getInstance().leaveSession(false);
-                        Log.d(TAG, "leaveSession ret = " + ret);
+
+                        if (run_video_analytics_immeditly.isChecked()) {
+                            builder.dismiss();
+                            releaseResource();
+                            int ret = ZoomVideoSDK.getInstance().leaveSession(false);
+                            Log.d(TAG, "leaveSession ret = " + ret);
+                            EventBus.getDefault().post(new IsAnalyticsBoxChecked(true));
+                        }else {
+                            Toast.makeText(BaseMeetingActivity.this, "Please check the box to run video analytics", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
 
@@ -1478,12 +1488,17 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
                 builder.findViewById(R.id.btn_end_naya).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        builder.dismiss();
-                        if (endSession) {
-                            releaseResource();
-                            int ret = ZoomVideoSDK.getInstance().leaveSession(true);
-                            Log.d(TAG, "leaveSession ret = " + ret);
-                        }
+                       if (run_video_analytics_immeditly.isChecked()) {
+                           builder.dismiss();
+                           if (endSession) {
+                               releaseResource();
+                               int ret = ZoomVideoSDK.getInstance().leaveSession(true);
+                               Log.d(TAG, "leaveSession ret = " + ret);
+                               EventBus.getDefault().post(new IsAnalyticsBoxChecked(true));
+                           }
+                       }else {
+                           Toast.makeText(BaseMeetingActivity.this, "Please check the box to run video analytics", Toast.LENGTH_SHORT).show();
+                       }
                     }
                 });
 

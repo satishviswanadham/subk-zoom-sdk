@@ -78,16 +78,16 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        String jsonData = Utils.loadJSONFromAsset(this, "questions.json");
+        String jsonData = Utils.getJsonFromAssets(this, R.raw.questions);
         Type listType =  TypeToken.getParameterized(List.class, CeFormQuestion.class).getType();
-        questionResponses = new Gson().fromJson(jsonData, listType);
+        questionResponses = new Gson().fromJson(jsonData,listType);
 
-        Log.e("print ques", "onCreate: " + questionResponses);
+        Log.i("print ques", "onCreate: " + questionResponses);
         binding.fab.setOnClickListener(view -> {
-            String sessionName = "Testing Android Zoom";
-            String name = "Arul Harsh (8454)";
+            String sessionName = "VHV for 123456";
+            String name = "Soumya FX RBL (9502)";
             String password = "789789789";
-            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfa2V5Ijoib0tNc1JJSWFNbElIeUZ3TkM1dzJBUG12clVLNkdEU1p5T2RJIiwicm9sZV90eXBlIjoxLCJ0cGMiOiJUZXN0aW5nIEFuZHJvaWQgWm9vbSIsInZlcnNpb24iOjEsImlhdCI6MTczNDkzOTQ3NywiZXhwIjoxNzM0OTQ2Njc3LCJ1c2VyX2lkZW50aXR5IjoiODQ1NCIsInNlc3Npb25fa2V5IjoiYjgzOGFlMTEtNjljNC00MWVjLWJlMGMtMGY1NWVjMDgzYWVmIiwicHdkIjoiNzg5Nzg5Nzg5IiwiY2xvdWRfcmVjb3JkaW5nX29wdGlvbiI6MCwiY2xvdWRfcmVjb3JkaW5nX2VsZWN0aW9uIjoxfQ.mVQkoTF1mKSgxb0Jf2RfJGeyvZyhYUXGC1lrrITgos8";
+            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfa2V5Ijoib0tNc1JJSWFNbElIeUZ3TkM1dzJBUG12clVLNkdEU1p5T2RJIiwicm9sZV90eXBlIjoxLCJ0cGMiOiJWSFYgZm9yIDEyMzQ1NiIsInZlcnNpb24iOjEsImlhdCI6MTc2MjIzMTYyOCwiZXhwIjoxNzYyMjM4ODI4LCJ1c2VyX2lkZW50aXR5IjoiOTUwMiIsInNlc3Npb25fa2V5IjoiNzQyMjFiY2UtZjg5My00NTkxLWIzNDMtNzYzZGMyNWFiOWQ1IiwicHdkIjoiNzg5Nzg5Nzg5IiwiY2xvdWRfcmVjb3JkaW5nX29wdGlvbiI6MCwiY2xvdWRfcmVjb3JkaW5nX2VsZWN0aW9uIjoxfQ.K3KIVaTKR6nKZf7E6ZpUfTszma-3GoLn8-OP8dNMK-k";
 
             Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
             intent.putExtra(PARAM_USERNAME, name);

@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.subk.testing.Utils;
 
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.subk.zoomsdk.event.CeFormAnswerDataEvent;
+import co.subk.zoomsdk.event.IsAnalyticsBoxChecked;
 import co.subk.zoomsdk.event.LocationEvent;
 import co.subk.zoomsdk.event.SessionEndedEvent;
 import co.subk.zoomsdk.event.SessionJoinedEvent;
@@ -80,12 +80,19 @@ public class EventManagementService extends Service {
     public void onCeFormAnswerEventReceived(CeFormAnswerDataEvent ceFormAnswerDataEvent) {
         String jsonData = Utils.loadJSONFromAsset(this, "questions2.json");
         Type listType = TypeToken.getParameterized(List.class, CeFormQuestion.class).getType();
+        Log.i(TAG, "onCeFormAnswerEventReceived: ");
 //        questionResponses = new Gson().fromJson(jsonData, listType);
         if (questionResponses == null) {
             EventBus.getDefault().post(new ArrayList<>());
             Log.e("print answer", "onAnswerEventReceived: " + 0 );
         } else {
             EventBus.getDefault().post(questionResponses);
+        }
+    }
+    @Subscribe
+    public void onRunVideoAnalytics(IsAnalyticsBoxChecked is_boxChecked) {
+        if (is_boxChecked.status) {
+            Log.i(TAG, "onRunVideoAnalytics: "+is_boxChecked);
         }
     }
 

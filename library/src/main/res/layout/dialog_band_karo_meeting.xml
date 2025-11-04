@@ -10,12 +10,41 @@
     android:paddingBottom="@dimen/dp_5">
 
     <TextView
+        android:layout_marginStart="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_meeting"
+        android:textColor="@color/setting_text"
+        android:textStyle="bold"
+        android:textSize="@dimen/textsize_16" />
+
+    <TextView
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/txt_leave_session_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/leave_message"
+        android:text="@string/are_you_sure"
         android:textColor="@color/setting_text"
         android:textSize="@dimen/textsize_16" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <CheckBox
+            android:layout_marginTop="20dp"
+            android:id="@+id/run_video_analytics_immeditly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/run_video_analytics_immeditly_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/run_video_analytics_immeditly"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
