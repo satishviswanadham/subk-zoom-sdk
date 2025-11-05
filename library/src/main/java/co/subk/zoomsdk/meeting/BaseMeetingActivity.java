@@ -15,6 +15,7 @@ import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_PASSWORD;
 import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_RENDER_TYPE;
 import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_SESSION_NAME;
 import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_SHOW_CONSENT;
+import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_SHOW_END_MEETING_DIALOG;
 import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_TASK_ID;
 import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_TOKEN;
 import static co.subk.zoomsdk.ZoomSdkHelper.PARAM_USERNAME;
@@ -242,6 +243,7 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
     protected boolean allowToTakeScreenshot = false;
 
     protected boolean allowToCaptureLocation = false;
+    protected boolean showEndMeetingDialog = false;
     protected boolean allowToCaptureData = false;
     protected int renderType;
 
@@ -646,6 +648,8 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
             allowToEndMeeting = bundle.getBoolean(PARAM_ALLOW_TO_END_MEETING);
             allowToTakeScreenshot = bundle.getBoolean(PARAM_ALLOW_TO_TAKE_SCREENSHOT);
             allowToCaptureLocation = bundle.getBoolean(PARAM_ALLOW_TO_GET_LOCATION);
+            showEndMeetingDialog = bundle.getBoolean(PARAM_SHOW_END_MEETING_DIALOG);
+            Log.i(TAG, "parseIntent: showEndMeetingDialog"+showEndMeetingDialog);
 
            // allowToCaptureData = bundle.getBoolean(PARAM_ALLOW_TO_CE_FORM_CAPTURE_DATA);
            // ceQuestionResponse = bundle.getString(PARAM_CE_FORM_QUESTION_ANSWER_LIST);
@@ -1443,7 +1447,13 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
 
                 TextView btn_cancel_button = builder.findViewById(R.id.btn_cancel_button_naya);
                 CheckBox run_video_analytics_immeditly = builder.findViewById(R.id.run_video_analytics_immeditly);
+                LinearLayout videoMeetingAnalytics = builder.findViewById(R.id.videoMeetingAnalytics);
 
+                if (showEndMeetingDialog) {
+                    videoMeetingAnalytics.setVisibility(View.VISIBLE);
+                } else {
+                    videoMeetingAnalytics.setVisibility(View.GONE);
+                }
 
                 if (view.getId() == R.id.text_end_meeting) {
 //                    ((TextView) builder.findViewById(R.id.txt_leave_session_new)).setText(getString(R.string.leave_message));
@@ -1453,15 +1463,21 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
                 builder.findViewById(R.id.btn_leave_naya).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        if (run_video_analytics_immeditly.isChecked()) {
+                        if (showEndMeetingDialog) {
+                            if (run_video_analytics_immeditly.isChecked()) {
+                                builder.dismiss();
+                                releaseResource();
+                                int ret = ZoomVideoSDK.getInstance().leaveSession(false);
+                                Log.d(TAG, "leaveSession ret = " + ret);
+                                EventBus.getDefault().post(new IsAnalyticsBoxChecked(true));
+                            } else {
+                                Toast.makeText(BaseMeetingActivity.this, "Please check the box to run video analytics", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
                             builder.dismiss();
                             releaseResource();
                             int ret = ZoomVideoSDK.getInstance().leaveSession(false);
                             Log.d(TAG, "leaveSession ret = " + ret);
-                            EventBus.getDefault().post(new IsAnalyticsBoxChecked(true));
-                        }else {
-                            Toast.makeText(BaseMeetingActivity.this, "Please check the box to run video analytics", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -1488,17 +1504,26 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
                 builder.findViewById(R.id.btn_end_naya).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                       if (run_video_analytics_immeditly.isChecked()) {
-                           builder.dismiss();
-                           if (endSession) {
-                               releaseResource();
-                               int ret = ZoomVideoSDK.getInstance().leaveSession(true);
-                               Log.d(TAG, "leaveSession ret = " + ret);
-                               EventBus.getDefault().post(new IsAnalyticsBoxChecked(true));
-                           }
-                       }else {
-                           Toast.makeText(BaseMeetingActivity.this, "Please check the box to run video analytics", Toast.LENGTH_SHORT).show();
-                       }
+                        if (showEndMeetingDialog) {
+                            if (run_video_analytics_immeditly.isChecked()) {
+                                builder.dismiss();
+                                if (endSession) {
+                                    releaseResource();
+                                    int ret = ZoomVideoSDK.getInstance().leaveSession(true);
+                                    Log.d(TAG, "leaveSession ret = " + ret);
+                                }
+                                EventBus.getDefault().post(new IsAnalyticsBoxChecked(true));
+                            } else {
+                                Toast.makeText(BaseMeetingActivity.this, "Please check the box to run video analytics", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            builder.dismiss();
+                            if (endSession) {
+                                releaseResource();
+                                int ret = ZoomVideoSDK.getInstance().leaveSession(true);
+                                Log.d(TAG, "leaveSession ret = " + ret);
+                            }
+                        }
                     }
                 });
 

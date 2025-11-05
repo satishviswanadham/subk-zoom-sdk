@@ -36,6 +36,7 @@ public class ZoomSdkHelper {
     public final static String PARAM_CE_FORM_TYPE_TEXT = "text";
     public final static String PARAM_CE_FORM_TYPE_NUMBER = "number";
     public final static String PARAM_CE_FORM_TYPE_MCQ = "mcq";
+    public final static String PARAM_SHOW_END_MEETING_DIALOG = "show_end_meeting_dialog";
     public static int stopShare() {
 
         return ZoomVideoSDK.getInstance().getShareHelper().stopShare();
