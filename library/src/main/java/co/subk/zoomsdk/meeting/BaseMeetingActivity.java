@@ -1463,23 +1463,10 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
                 builder.findViewById(R.id.btn_leave_naya).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (showEndMeetingDialog) {
-                            if (run_video_analytics_immeditly.isChecked()) {
-                                builder.dismiss();
-                                releaseResource();
-                                int ret = ZoomVideoSDK.getInstance().leaveSession(false);
-                                Log.d(TAG, "leaveSession ret = " + ret);
-                                EventBus.getDefault().post(new IsAnalyticsBoxChecked(true));
-                            } else {
-                                Toast.makeText(BaseMeetingActivity.this, "Please check the box to run video analytics", Toast.LENGTH_SHORT).show();
-                            }
-                        }else {
-                            builder.dismiss();
-                            releaseResource();
-                            int ret = ZoomVideoSDK.getInstance().leaveSession(false);
-                            Log.d(TAG, "leaveSession ret = " + ret);
-                        }
-
+                        builder.dismiss();
+                        releaseResource();
+                        int ret = ZoomVideoSDK.getInstance().leaveSession(false);
+                        Log.d(TAG, "leaveSession ret = " + ret);
                     }
                 });
 
@@ -1492,12 +1479,16 @@ public class BaseMeetingActivity extends AppCompatActivity implements ZoomVideoS
                 boolean end = false;
                 if (null != userInfo && userInfo.isHost() && allowToEndMeeting) {
                     builder.findViewById(R.id.btn_end_naya).setVisibility(View.VISIBLE);
-                    ((TextView) builder.findViewById(R.id.btn_end_naya)).setText(getString(R.string.leave_end_text));
+                    builder.findViewById(R.id.btn_leave_naya).setVisibility(View.GONE);
+//                    ((TextView) builder.findViewById(R.id.btn_end_naya)).setText(getString(R.string.leave_end_text));
+                        ((TextView)builder.findViewById(R.id.title_end_meeting)).setText(getString(R.string.leave_end_text));
+                    ((TextView)builder.findViewById(R.id.txt_leave_session_new)).setText(getString(R.string.are_you_sure_end));
                     end = true;
-                }
-                else
-                {
+                } else {
                     builder.findViewById(R.id.btn_end_naya).setVisibility(View.GONE);
+                    builder.findViewById(R.id.btn_leave_naya).setVisibility(View.VISIBLE);
+                    ((TextView)builder.findViewById(R.id.title_end_meeting)).setText(getString(R.string.leave_leave_text));
+                    ((TextView)builder.findViewById(R.id.txt_leave_session_new)).setText(getString(R.string.are_you_sure_leave));
                 }
                 final boolean endSession = end;
 

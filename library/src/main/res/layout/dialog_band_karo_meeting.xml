@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dp_320"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/dialog_bg"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/dp_15"
-    android:paddingTop="@dimen/dp_24"
-    android:paddingRight="@dimen/dp_12"
-    android:paddingBottom="@dimen/dp_5">
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_24"
+        android:paddingRight="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_5">
     <TextView
+        android:id="@+id/title_end_meeting"
         android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,33 +24,36 @@
         android:textStyle="bold"
         android:textSize="@dimen/textsize_16" />
 
-    <TextView
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/txt_leave_session_new"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/are_you_sure"
-        android:textColor="@color/setting_text"
-        android:textSize="@dimen/textsize_16" />
-
-    <LinearLayout
-        android:id="@+id/videoMeetingAnalytics"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <CheckBox
-            android:layout_marginTop="20dp"
-            android:id="@+id/run_video_analytics_immeditly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
         <TextView
-            android:layout_marginTop="20dp"
-            android:id="@+id/run_video_analytics_immeditly_text"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_leave_session_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/run_video_analytics_immeditly"/>
+            android:text="@string/are_you_sure_end"
+            android:textColor="@color/setting_text"
+            android:textSize="@dimen/textsize_16" />
+
+        <LinearLayout
+            android:id="@+id/videoMeetingAnalytics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:layout_marginTop="20dp"
+                android:id="@+id/run_video_analytics_immeditly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/run_video_analytics_immeditly_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/run_video_analytics_immeditly"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -56,31 +65,38 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/btn_end_naya"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:padding="@dimen/dp_8"
-            android:textColor="@drawable/leave_text_color"
-            android:textSize="@dimen/textsize_12" />
-
-        <TextView
-            android:id="@+id/btn_leave_naya"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/leave_leave_text"
-            android:padding="@dimen/dp_8"
-            android:textColor="@drawable/leave_text_color"
-            android:textSize="@dimen/textsize_12" />
-
-        <TextView
             android:id="@+id/btn_cancel_button_naya"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:visibility="visible"
             android:padding="@dimen/dp_8"
-            android:textColor="@drawable/leave_text_color"
+            android:layout_margin="10dp"
+            android:background="@color/color_feedback_response_count"
+            android:textColor="@color/white"
             android:textSize="@dimen/textsize_12" />
+
+        <TextView
+            android:id="@+id/btn_end_naya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"
+            android:padding="@dimen/dp_8"
+            android:layout_margin="10dp"
+            android:background="@color/light_blue_600"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_12" />
+
+        <TextView
+            android:id="@+id/btn_leave_naya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"
+            android:padding="@dimen/dp_8"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            android:background="@color/light_blue_600"
+            android:textSize="@dimen/textsize_12" />
+
     </LinearLayout>
 </LinearLayout>

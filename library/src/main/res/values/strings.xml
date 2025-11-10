@@ -101,10 +101,12 @@
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure you want to end meeting?</string>
+    <string name="are_you_sure_end">Are you sure you want to end meeting?</string>
+    <string name="are_you_sure_leave">Are you sure you want to leave meeting?</string>
     <string name="end_meeting">End Meeting</string>
     <string name="run_video_analytics_immeditly">Run video analytics immeditely</string>
     <string name="risk_status">Risk Status</string>
     <string name="low">low</string>
     <string name="proximity">Proximity</string>
+    <string name="confirm">Confirm</string>
 </resources>
